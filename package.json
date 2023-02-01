@@ -1,12 +1,13 @@
 {
   "name": "mern-budget",
   "version": "1.0.0",
-  "description": "Budget and expense tracker app",
-  "main": "server.js",
+  "description": "Bingo game app",
+  "main": "./backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Elizabeth Czarny",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "mongoose": "^6.8.4"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "nodemon": "^2.0.20"
   }
 }

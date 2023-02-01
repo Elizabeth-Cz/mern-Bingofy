@@ -3,51 +3,51 @@ const asyncHandler = require('express-async-handler');
 const Board = require('../models/boardModel');
 const User = require('../models/userModel');
 
-// @desc    Get Boards
-// @route GET /api/Boards
-// @access Private
+// @desc    Get boards
+// @route   GET /api/boards
+// @access  Private
 const getBoards = asyncHandler(async (req, res) => {
   const boards = await Board.find({ user: req.user.id });
+
   res.status(200).json(boards);
 });
 
-// @desc    Set Boards
-// @route POST /api/Boards
-// @access Private
+// @desc    Set board
+// @route   POST /api/boards
+// @access  Private
 const setBoard = asyncHandler(async (req, res) => {
-  if (!req.body.board) {
+  if (!req.body.text) {
     res.status(400);
     throw new Error('Please add a text field');
   }
 
-  // Seperate string to array items
   const board = await Board.create({
-    board: req.body.board,
+    text: req.body.text,
     user: req.user.id,
   });
+
   res.status(200).json(board);
 });
 
-// @desc    Update Boards
-// @route PUT /api/Boards/:id
-// @access Private
+// @desc    Update board
+// @route   PUT /api/boards/:id
+// @access  Private
 const updateBoard = asyncHandler(async (req, res) => {
   const board = await Board.findById(req.params.id);
+
   if (!board) {
     res.status(400);
     throw new Error('Board not found');
   }
 
-  const user = await User.findById(req.user.id);
-
   // Check for user
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error('User not found');
   }
 
-  // Make sure the loggen in user matches the goal user
-  if (board.user.toString() !== user.id) {
+  // Make sure the logged in user matches the board user
+  if (board.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error('User not authorized');
   }
@@ -59,29 +59,31 @@ const updateBoard = asyncHandler(async (req, res) => {
   res.status(200).json(updatedBoard);
 });
 
-// @desc    Delete Boards
-// @route DELETE /api/Boards/:id
-// @access Private
+// @desc    Delete board
+// @route   DELETE /api/boards/:id
+// @access  Private
 const deleteBoard = asyncHandler(async (req, res) => {
   const board = await Board.findById(req.params.id);
+
   if (!board) {
     res.status(400);
     throw new Error('Board not found');
   }
-  const user = await User.findById(req.user.id);
 
   // Check for user
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error('User not found');
   }
 
-  // Make sure the loggen in user matches the goal user
-  if (board.user.toString() !== user.id) {
+  // Make sure the logged in user matches the board user
+  if (board.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error('User not authorized');
   }
+
   await board.remove();
+
   res.status(200).json({ id: req.params.id });
 });
 

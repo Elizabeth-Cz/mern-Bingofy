@@ -7,13 +7,14 @@ const boardSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    board: {
+    text: {
       type: String,
-      required: [true, 'Please fill slot'],
+      required: [true, 'Please add a text value'],
     },
   },
   {
     timestamps: true,
   }
 );
-module.exports = mongoose.model('Board', boardSchema);
+
+module.exports = mongoose.model('Goal', boardSchema);

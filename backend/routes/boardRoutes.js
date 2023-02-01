@@ -5,7 +5,8 @@ const {
   setBoard,
   updateBoard,
   deleteBoard,
-} = require('../controllers/boardsController');
+} = require('../controllers/BoardsController');
+
 const { protect } = require('../middleware/authMiddleware');
 
 router.route('/').get(protect, getBoards).post(protect, setBoard);
