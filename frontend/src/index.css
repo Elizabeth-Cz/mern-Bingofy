@@ -99,13 +99,20 @@ h3 {
   position: relative;
 }
 
+.close {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
 .board .close {
   position: absolute;
   top: 10px;
   right: 15px;
-  cursor: pointer;
-  border: none;
-  background: none;
+}
+
+.tag .close {
+  position: relative;
 }
 
 .form,
@@ -133,6 +140,20 @@ h3 {
   text-align: left;
   display: block;
   margin: 0 0 5px 3px;
+}
+
+.add-field {
+  display: flex;
+  gap: 10px;
+}
+
+.add-field .btn {
+  padding: 0 10px;
+  width: 20%;
+}
+
+.add-field input {
+  margin-bottom: 0;
 }
 
 .btn {
@@ -167,6 +188,23 @@ h3 {
 
 .btn:hover {
   transform: scale(0.98);
+}
+
+.tags-list,
+.cells-list {
+  display: flex;
+  margin: 10px 0;
+}
+
+.tag,
+.cell {
+  padding: 0 10px;
+  background-color: #e6e6e6;
+  margin: 0 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .loadingSpinnerContainer {

@@ -29,6 +29,7 @@ const boardSchema = mongoose.Schema(
 );
 
 module.exports = mongoose.model('Board', boardSchema);
+
 // {
 //   "boardInfo": {
 //       "title": "my title",

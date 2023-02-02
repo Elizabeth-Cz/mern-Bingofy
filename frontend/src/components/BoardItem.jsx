@@ -1,4 +1,9 @@
+import { useDispatch } from 'react-redux';
+import { deleteBoard } from '../features/boards/boardSlice';
+
 const BoardItem = ({ board }) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="board">
       <div>{new Date(board.createdAt).toLocaleString('en-GB')}</div>
@@ -11,6 +16,20 @@ const BoardItem = ({ board }) => {
         ))}
       </ul>
       <p>category: {board.boardInfo.category}</p>
+      <ul className="tags-list">
+        {board.boardInfo.tags.length > 0 &&
+          board.boardInfo.tags.map((tag, i) => (
+            <li key={i} className="tag">
+              {tag}
+            </li>
+          ))}
+      </ul>
+      <button
+        onClick={() => dispatch(deleteBoard(board._id))}
+        className="close"
+      >
+        x
+      </button>
     </div>
   );
 };

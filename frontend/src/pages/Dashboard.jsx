@@ -46,6 +46,7 @@ const Dashboard = () => {
       </section>
       <BoardForm />
       <section className="content">
+        <h2>Your Bingofy boards</h2>
         {boards && boards.length > 0 ? (
           <div className="boards">
             {boards.map((board) => (

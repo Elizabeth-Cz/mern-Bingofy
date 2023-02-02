@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBoard } from '../features/boards/boardSlice';
+import CellAdder from './CellAdder';
+import TagAdder from './TagAdder';
 
 function BoardForm() {
+  const dispatch = useDispatch();
+
   const [boardInfo, setBoardInfo] = useState({
     title: '',
     category: '',
@@ -10,12 +14,26 @@ function BoardForm() {
     tags: [],
   });
 
-  const dispatch = useDispatch();
-
-  const handleChange = (event) => {
+  const handleChange = (e) => {
     setBoardInfo({
       ...boardInfo,
-      [event.target.name]: event.target.value,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const deleteTag = (e, i) => {
+    e.preventDefault();
+    boardInfo.tags.splice(i, 1);
+    setBoardInfo({
+      ...boardInfo,
+    });
+  };
+
+  const deleteCell = (e, i) => {
+    e.preventDefault();
+    boardInfo.cells.splice(i, 1);
+    setBoardInfo({
+      ...boardInfo,
     });
   };
 
@@ -23,14 +41,13 @@ function BoardForm() {
     e.preventDefault();
 
     dispatch(createBoard({ boardInfo }));
-    // setBoardInfo({});
   };
 
   return (
     <section className="form">
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label>Board</label>
+          <h3>Add new Bingofy board</h3>
           <input
             type="text"
             name="title"
@@ -43,28 +60,42 @@ function BoardForm() {
             type="text"
             name="category"
             id="category"
-            placeholder="Board category"
+            placeholder="Board Category"
             value={boardInfo.category}
             onChange={handleChange}
           />
           {/* Create array of cells input field! */}
-          <input
-            type="text"
-            name="cells"
-            id="cells"
-            placeholder="Board Cells"
-            value={boardInfo.cells}
-            onChange={handleChange}
+          <CellAdder
+            handleCells={handleChange}
+            boardInfo={boardInfo}
+            setBoardInfo={setBoardInfo}
           />
+          <ul className="cells-list">
+            {boardInfo.cells.map((cell, i) => (
+              <li key={i} className="cell">
+                {cell}
+                <button className="close" onClick={(e) => deleteCell(e, i)}>
+                  x
+                </button>
+              </li>
+            ))}
+          </ul>
           {/* Create array of tags input field! */}
-          <input
-            type="text"
-            name="cells"
-            id="cells"
-            placeholder="Board Cells"
-            value={boardInfo.cells}
-            onChange={handleChange}
+          <TagAdder
+            handleTags={handleChange}
+            boardInfo={boardInfo}
+            setBoardInfo={setBoardInfo}
           />
+          <ul className="tags-list">
+            {boardInfo.tags.map((tag, i) => (
+              <li key={i} className="tag">
+                {tag}
+                <button className="close" onClick={(e) => deleteTag(e, i)}>
+                  x
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="form-group">
           <button className="btn btn-block" type="submit">

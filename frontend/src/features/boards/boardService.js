@@ -28,9 +28,23 @@ const getBoards = async (token) => {
   return response.data;
 };
 
+// Delete user board
+const deleteBoard = async (boardId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.delete(API_URL + boardId, config);
+
+  return response.data;
+};
+
 const boardService = {
   createBoard,
   getBoards,
+  deleteBoard,
 };
 
 export default boardService;
