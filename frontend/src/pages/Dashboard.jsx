@@ -34,6 +34,9 @@ const Dashboard = () => {
   if (isLoading) {
     return <Spinner />;
   }
+  // boards.forEach((element) => {
+  //   console.log(element.boardInfo.title);
+  // });
 
   return (
     <>

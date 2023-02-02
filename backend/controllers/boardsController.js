@@ -16,13 +16,24 @@ const getBoards = asyncHandler(async (req, res) => {
 // @route   POST /api/boards
 // @access  Private
 const setBoard = asyncHandler(async (req, res) => {
-  if (!req.body.text) {
+  const boardInfo = req.body.boardInfo;
+  if (!boardInfo.title || !boardInfo.cells || !boardInfo.category) {
     res.status(400);
-    throw new Error('Please add a text field');
+    throw new Error('Please add board info');
   }
 
+  // if (boardInfo.cells.length < 24) {
+  //   res.status(400);
+  //   throw new Error('Please add enough cells');
+  // }
+
   const board = await Board.create({
-    text: req.body.text,
+    boardInfo: {
+      title: boardInfo.title,
+      cells: boardInfo.cells,
+      tags: boardInfo.tags,
+      category: boardInfo.category,
+    },
     user: req.user.id,
   });
 

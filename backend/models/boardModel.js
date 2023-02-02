@@ -7,9 +7,20 @@ const boardSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    text: {
-      type: String,
-      required: [true, 'Please add a text value'],
+    boardInfo: {
+      title: {
+        type: String,
+        required: [true, 'Please add a title'],
+      },
+      cells: {
+        type: [String],
+        required: [true, 'Please add cells content'],
+      },
+      tags: { type: [String] },
+      category: {
+        type: String,
+        required: [true, 'Please add a category'],
+      },
     },
   },
   {
@@ -17,4 +28,12 @@ const boardSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('Goal', boardSchema);
+module.exports = mongoose.model('Board', boardSchema);
+// {
+//   "boardInfo": {
+//       "title": "my title",
+//       "cells": ["First cell", "Second cell"],
+//       "tags": ["first tag", "second tag"],
+//       "category": "a category"
+//       }
+// }
