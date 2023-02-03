@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import BoardForm from '../components/BoardForm';
 import BoardItem from '../components/BoardItem';
 import Spinner from '../components/Spinner';
 import { getBoards, reset } from '../features/boards/boardSlice';
@@ -34,17 +33,11 @@ const Dashboard = () => {
   if (isLoading) {
     return <Spinner />;
   }
-  // boards.forEach((element) => {
-  //   console.log(element.boardInfo.title);
-  // });
 
   return (
     <>
-      <section className="heading">
-        <h1>Welcome {user && user.name}</h1>
-        <p>Boards Dashboard</p>
-      </section>
-      <BoardForm />
+      <h1>Welcome {user && user.name}</h1>
+      {/* <BoardForm /> */}
       <section className="content">
         <h2>Your Bingofy boards</h2>
         {boards && boards.length > 0 ? (

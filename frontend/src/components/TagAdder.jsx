@@ -5,7 +5,6 @@ const TagAdder = ({ boardInfo, setBoardInfo }) => {
 
   const handleChange = (event) => {
     setTag(event.target.value);
-    console.log(boardInfo);
   };
 
   const addTag = (event) => {
@@ -20,18 +19,20 @@ const TagAdder = ({ boardInfo, setBoardInfo }) => {
   };
 
   return (
-    <div className="form-group add-field">
-      <input
-        type="text"
-        name="tag"
-        id="tag"
-        placeholder="Board Tag"
-        value={tag}
-        onChange={handleChange}
-      />
-      <button className="btn" onClick={addTag}>
-        Add Tag
-      </button>
+    <div className="form-group">
+      <label htmlFor="tag">Board Tags</label>
+      <div className="add-field">
+        <input
+          type="text"
+          name="tag"
+          id="tag"
+          value={tag}
+          onChange={handleChange}
+        />
+        <button className="btn" onClick={addTag}>
+          Add Tag
+        </button>
+      </div>
     </div>
   );
 };

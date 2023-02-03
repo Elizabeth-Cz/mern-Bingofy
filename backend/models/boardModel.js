@@ -29,12 +29,3 @@ const boardSchema = mongoose.Schema(
 );
 
 module.exports = mongoose.model('Board', boardSchema);
-
-// {
-//   "boardInfo": {
-//       "title": "my title",
-//       "cells": ["First cell", "Second cell"],
-//       "tags": ["first tag", "second tag"],
-//       "category": "a category"
-//       }
-// }

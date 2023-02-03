@@ -16,9 +16,17 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="logo">
-        <Link to="/">Set Board</Link>
-      </div>
+      <ul>
+        <li>
+          <Link to="/">My Boards</Link>
+        </li>
+        <li>
+          <Link to="/create">Create new board</Link>
+        </li>
+        <li>
+          <Link to="/play">Play</Link>
+        </li>
+      </ul>
       <ul>
         {user ? (
           <li>

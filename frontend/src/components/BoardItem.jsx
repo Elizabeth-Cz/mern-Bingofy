@@ -8,7 +8,7 @@ const BoardItem = ({ board }) => {
     <div className="board">
       <div>{new Date(board.createdAt).toLocaleString('en-GB')}</div>
       <h2>{board.boardInfo.title}</h2>
-      <ul>
+      <ul className="cells-list">
         {board.boardInfo.cells.map((cell, i) => (
           <li key={i}>
             {i + 1}. {cell}

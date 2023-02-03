@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { createBoard } from '../features/boards/boardSlice';
 import CellAdder from './CellAdder';
 import TagAdder from './TagAdder';
@@ -40,7 +41,19 @@ function BoardForm() {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    if (boardInfo.cells.length < 25) {
+      toast.error('Add at least 25 cells');
+      return;
+    }
+
     dispatch(createBoard({ boardInfo }));
+    setBoardInfo({
+      title: '',
+      category: '',
+      cells: [],
+      tags: [],
+    });
+    toast.success('New board created!');
   };
 
   return (
@@ -48,39 +61,22 @@ function BoardForm() {
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <h3>Add new Bingofy board</h3>
+          <label htmlFor="title">Title</label>
           <input
             type="text"
             name="title"
             id="title"
-            placeholder="Board Title"
             value={boardInfo.title}
             onChange={handleChange}
           />
+          <label htmlFor="category">Category</label>
           <input
             type="text"
             name="category"
             id="category"
-            placeholder="Board Category"
             value={boardInfo.category}
             onChange={handleChange}
           />
-          {/* Create array of cells input field! */}
-          <CellAdder
-            handleCells={handleChange}
-            boardInfo={boardInfo}
-            setBoardInfo={setBoardInfo}
-          />
-          <ul className="cells-list">
-            {boardInfo.cells.map((cell, i) => (
-              <li key={i} className="cell">
-                {cell}
-                <button className="close" onClick={(e) => deleteCell(e, i)}>
-                  x
-                </button>
-              </li>
-            ))}
-          </ul>
-          {/* Create array of tags input field! */}
           <TagAdder
             handleTags={handleChange}
             boardInfo={boardInfo}
@@ -91,6 +87,22 @@ function BoardForm() {
               <li key={i} className="tag">
                 {tag}
                 <button className="close" onClick={(e) => deleteTag(e, i)}>
+                  x
+                </button>
+              </li>
+            ))}
+          </ul>
+          <CellAdder
+            handleCells={handleChange}
+            boardInfo={boardInfo}
+            setBoardInfo={setBoardInfo}
+          />
+          <p>{boardInfo.cells.length}/25</p>
+          <ul className="cells-list">
+            {boardInfo.cells.map((cell, i) => (
+              <li key={i} className="cell">
+                {cell}
+                <button className="close" onClick={(e) => deleteCell(e, i)}>
                   x
                 </button>
               </li>

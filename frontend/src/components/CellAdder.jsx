@@ -5,7 +5,6 @@ const CellAdder = ({ boardInfo, setBoardInfo }) => {
 
   const handleChange = (event) => {
     setCell(event.target.value);
-    console.log(boardInfo);
   };
 
   const addCell = (event) => {
@@ -20,19 +19,23 @@ const CellAdder = ({ boardInfo, setBoardInfo }) => {
   };
 
   return (
-    <div className="form-group add-field">
-      <input
-        type="text"
-        name="cell"
-        id="cell"
-        placeholder="Board Cells"
-        value={cell}
-        onChange={handleChange}
-      />
-      <button className="btn" onClick={addCell}>
-        Add Cell
-      </button>
-    </div>
+    <>
+      <div className="form-group">
+        <label htmlFor="cell">Board cells</label>
+        <div className="add-field">
+          <input
+            type="text"
+            name="cell"
+            id="cell"
+            value={cell}
+            onChange={handleChange}
+          ></input>
+          <button className="btn" onClick={addCell}>
+            Add Cell
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 
