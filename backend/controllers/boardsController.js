@@ -43,15 +43,15 @@ const getBoard = asyncHandler(async (req, res) => {
 // @access  Private
 const setBoard = asyncHandler(async (req, res) => {
   const boardInfo = req.body.boardInfo;
-  if (!boardInfo.title || !boardInfo.cells || !boardInfo.category) {
+  if (
+    !boardInfo.title ||
+    !boardInfo.cells ||
+    !boardInfo.category ||
+    boardInfo.cells.length < 24
+  ) {
     res.status(400);
     throw new Error('Please add board info');
   }
-
-  // if (boardInfo.cells.length < 24) {
-  //   res.status(400);
-  //   throw new Error('Please add enough cells');
-  // }
 
   const board = await Board.create({
     boardInfo: {

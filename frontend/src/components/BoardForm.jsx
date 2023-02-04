@@ -13,6 +13,7 @@ function BoardForm() {
     category: '',
     cells: [],
     tags: [],
+    activeCells: [],
   });
 
   const handleChange = (e) => {
@@ -41,10 +42,10 @@ function BoardForm() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (boardInfo.cells.length < 25) {
-      toast.error('Add at least 25 cells');
-      return;
-    }
+    // if (boardInfo.cells.length < 25) {
+    //   toast.error('Add at least 25 cells');
+    //   return;
+    // }
 
     dispatch(createBoard({ boardInfo }));
     setBoardInfo({
@@ -52,7 +53,9 @@ function BoardForm() {
       category: '',
       cells: [],
       tags: [],
+      activeCells: [],
     });
+
     toast.success('New board created!');
   };
 

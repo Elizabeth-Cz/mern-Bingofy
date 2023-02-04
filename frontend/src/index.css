@@ -95,8 +95,10 @@ h3 {
 .board {
   background-color: #f4f4f4;
   margin: 10px 0;
-  padding: 20px 0 10px;
+  padding: 10px;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .board .cells-list {
@@ -210,6 +212,25 @@ h3 {
   margin-bottom: 20px;
 }
 
+.btn-save {
+  margin-top: auto;
+}
+
+.board .btn.btn-block {
+  margin: auto 0 0 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 20vw;
+}
+.game-page {
+  display: flex;
+  justify-content: space-around;
+}
+
 .btn:hover,
 .btn-reverse:hover {
   transform: scale(0.98);
@@ -235,18 +256,28 @@ h3 {
 .grid-cell {
   background-color: #e6e6e6;
   height: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .tag,
 .cell {
   padding: 0 10px;
   background-color: #e6e6e6;
-  margin: 5px;
   border-radius: 5px;
+  margin: 5px;
   display: flex;
   align-items: center;
   gap: 5px;
   justify-content: space-between;
+}
+
+.grid-cell.active {
+  background-color: #568e9a;
+  color: #fff;
 }
 
 .tag {
@@ -322,5 +353,20 @@ span {
 
   .heading p {
     font-size: 1.5rem;
+  }
+
+  .game-page {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .buttons {
+    width: 100%;
+  }
+
+  .cells-grid {
+    margin: 0;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 70px);
   }
 }

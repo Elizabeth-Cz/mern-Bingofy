@@ -38,7 +38,7 @@ const Play = () => {
       <h3>Your Bingofy boards</h3>
       <ul className="boards-list">
         {boards &&
-          boards.map((board, index) => (
+          boards.map((board) => (
             <li key={board._id}>
               {board.boardInfo.title}
               <Link to={`/play/${board._id}`} className="btn-reverse">

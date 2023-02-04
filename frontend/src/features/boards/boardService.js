@@ -41,10 +41,24 @@ const deleteBoard = async (boardId, token) => {
   return response.data;
 };
 
+// Update board
+const updateBoard = async (boardId, data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(API_URL + boardId, data, config);
+
+  return response.data;
+};
+
 const boardService = {
   createBoard,
   getBoards,
   deleteBoard,
+  updateBoard,
 };
 
 export default boardService;

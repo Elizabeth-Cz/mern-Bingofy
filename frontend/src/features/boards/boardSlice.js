@@ -53,10 +53,29 @@ export const getBoards = createAsyncThunk(
 // Delete board
 export const deleteBoard = createAsyncThunk(
   'boards/delete',
-  async (id, thunkAPI) => {
+  async (id, boardData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await boardService.deleteBoard(id, token);
+      return await boardService.deleteBoard(id, boardData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Update board
+export const updateBoard = createAsyncThunk(
+  'boards/update',
+  async (id, boardData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await boardService.updateBoard(id, boardData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -117,6 +136,14 @@ export const boardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(updateBoard.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        const updatedBoardIndex = state.boards.findIndex(
+          (board) => board._id === action.payload._id
+        );
+        state.boards[updatedBoardIndex] = action.payload;
       });
   },
 });

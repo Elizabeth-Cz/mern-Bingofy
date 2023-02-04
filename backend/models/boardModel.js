@@ -21,6 +21,8 @@ const boardSchema = mongoose.Schema(
         type: String,
         required: [true, 'Please add a category'],
       },
+      activeCells: [],
+      // Active cells array?
     },
   },
   {

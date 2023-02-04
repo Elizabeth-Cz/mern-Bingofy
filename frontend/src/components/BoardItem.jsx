@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { deleteBoard } from '../features/boards/boardSlice';
+import { Link } from 'react-router-dom';
 
 const BoardItem = ({ board }) => {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ const BoardItem = ({ board }) => {
       >
         x
       </button>
+      <Link to={`/play/${board._id}`} className="btn btn-block">
+        Play
+      </Link>
+      {/* <button className="btn btn-block">Play</button> */}
     </div>
   );
 };
