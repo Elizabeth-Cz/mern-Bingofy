@@ -39,7 +39,7 @@ const Play = () => {
       <ul className="boards-list">
         {boards &&
           boards.map((board) => (
-            <li key={board._id}>
+            <li key={board._id} id={board._id}>
               {board.boardInfo.title}
               <Link to={`/play/${board._id}`} className="btn-reverse">
                 Play

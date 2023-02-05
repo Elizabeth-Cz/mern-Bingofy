@@ -1,65 +1,68 @@
-import { useState, useEffect } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { updateBoard } from '../features/boards/boardSlice';
-// import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import Spinner from '../components/Spinner';
+import { useParams } from 'react-router-dom';
 
 const GameBoard = ({ board }) => {
-  // const dispatch = useDispatch();
-  // const { id } = useParams();
-  // const { user } = useSelector((state) => state.auth);
+  const { id } = useParams();
+  const LS = JSON.parse(localStorage.getItem('board ' + id));
 
-  const [boardData, setBoardData] = useState(board);
-  // const [cells, setCells] = useState(board.cells);
-  // const [activeCells, setActiveCells] = useState(board.activeCells);
+  const [boardInfo, setboardInfo] = useState(
+    LS && LS.boardId === id ? LS.boardInfo : board.boardInfo
+  );
 
-  useEffect(() => {
-    setBoardData(JSON.parse(localStorage.getItem('board')) || boardData);
-  }, []);
+  const shuffledCells = useMemo(
+    () => boardInfo.cells.slice().sort(() => Math.random() - 0.5),
+    [boardInfo.cells]
+  );
 
   const handleCellClick = (index) => {
-    if (boardData.activeCells.includes(index)) {
-      setBoardData({
-        ...boardData,
-        activeCells: boardData.activeCells.filter((cell) => cell !== index),
+    if (boardInfo.activeCells.includes(index)) {
+      setboardInfo({
+        ...boardInfo,
+        activeCells: boardInfo.activeCells.filter((cell) => cell !== index),
       });
-      // setActiveCells(activeCells.filter((cell) => cell !== index));
     } else {
-      setBoardData({
-        ...boardData,
-        activeCells: [...boardData.activeCells, index],
+      setboardInfo({
+        ...boardInfo,
+        activeCells: [...boardInfo.activeCells, index],
       });
-      // setActiveCells([...activeCells, index]);
     }
   };
 
   const shuffleCells = () => {
-    const shuffledCells = boardData.cells
-      .slice()
-      .sort(() => Math.random() - 0.5);
-    setBoardData({ ...boardData, cells: shuffledCells });
+    setboardInfo({ ...boardInfo, cells: shuffledCells });
   };
 
   const resetCells = () => {
-    setBoardData({ ...boardData, activeCells: [] });
+    setboardInfo({ ...boardInfo, activeCells: [] });
   };
 
   function saveBoard() {
-    localStorage.setItem('board', JSON.stringify(boardData));
-    console.log('cells: ', boardData.cells);
-    console.log('active cells: ', boardData.activeCells);
-
-    // dispatch(updateBoard(id, boardData));
+    const LS = { boardInfo, boardId: id };
+    localStorage.setItem('board ' + id, JSON.stringify(LS));
   }
+
+  useEffect(() => {
+    if (LS && LS.boardId === id) {
+      console.log('This board is saved to LS');
+    }
+  }, [LS, id]);
+
+  if (!board) {
+    return <Spinner />;
+  }
+
+  const { cells, title, activeCells } = boardInfo;
 
   return (
     <>
-      <p>Bingofy {board.title}</p>
+      <p>Bingofy {title}</p>
       <div className="game-page">
         <div className="cells-grid">
-          {boardData.cells.map((cell, index) => (
+          {cells.map((cell, index) => (
             <div
               className={`grid-cell ${
-                boardData.activeCells.includes(index) ? 'active' : ''
+                activeCells.includes(index) ? 'active' : ''
               }`}
               key={index}
               onClick={() => handleCellClick(index)}
@@ -72,7 +75,7 @@ const GameBoard = ({ board }) => {
           <button className="btn" onClick={resetCells}>
             Reset
           </button>
-          {boardData.activeCells.length === 0 && (
+          {activeCells.length === 0 && (
             <button className="btn" onClick={shuffleCells}>
               Shuffle Cells
             </button>

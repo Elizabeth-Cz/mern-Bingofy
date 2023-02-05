@@ -17,6 +17,7 @@ const Game = () => {
   const [board, setBoard] = useState({});
 
   const { id } = useParams();
+
   useEffect(() => {
     if (isError) {
       console.log(message);
@@ -35,17 +36,15 @@ const Game = () => {
   }, [dispatch, isError, message, navigate, user]);
 
   useEffect(() => {
-    setBoard(boards.find((b) => b._id === id)?.boardInfo || {});
+    setBoard(boards.find((b) => b._id === id) || {});
   }, [boards, id]);
 
   if (isLoading) {
     return <Spinner />;
   }
-
   return (
     <div>
-      {/* <p>this is a game for board #{id}</p> */}
-      {board && board.title && (
+      {board && Object.keys(board).length > 0 && (
         <>
           <GameBoard board={board} />
         </>
