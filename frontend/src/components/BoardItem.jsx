@@ -9,13 +9,13 @@ const BoardItem = ({ board }) => {
     <div className="board">
       <div>{new Date(board.createdAt).toLocaleString('en-GB')}</div>
       <h2>{board.boardInfo.title}</h2>
-      <ul className="cells-list">
+      {/* <ul className="cells-list">
         {board.boardInfo.cells.map((cell, i) => (
           <li key={i}>
             {i + 1}. {cell}
           </li>
         ))}
-      </ul>
+      </ul> */}
       <p>category: {board.boardInfo.category}</p>
       <ul className="tags-list">
         {board.boardInfo.tags.length > 0 &&

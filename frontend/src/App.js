@@ -8,6 +8,7 @@ import Game from './pages/Game';
 import Login from './pages/Login';
 import Play from './pages/Play';
 import Register from './pages/Register';
+import MyAccount from './pages/MyAccount';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/play/:id" element={<Game />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/myaccount" element={<MyAccount />} />
           </Routes>
         </div>
       </Router>

@@ -42,11 +42,6 @@ function BoardForm() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // if (boardInfo.cells.length < 25) {
-    //   toast.error('Add at least 25 cells');
-    //   return;
-    // }
-
     dispatch(createBoard({ boardInfo }));
     setBoardInfo({
       title: '',
@@ -80,21 +75,6 @@ function BoardForm() {
             value={boardInfo.category}
             onChange={handleChange}
           />
-          <TagAdder
-            handleTags={handleChange}
-            boardInfo={boardInfo}
-            setBoardInfo={setBoardInfo}
-          />
-          <ul className="tags-list">
-            {boardInfo.tags.map((tag, i) => (
-              <li key={i} className="tag">
-                {tag}
-                <button className="close" onClick={(e) => deleteTag(e, i)}>
-                  x
-                </button>
-              </li>
-            ))}
-          </ul>
           <CellAdder
             handleCells={handleChange}
             boardInfo={boardInfo}
@@ -106,6 +86,21 @@ function BoardForm() {
               <li key={i} className="cell">
                 {cell}
                 <button className="close" onClick={(e) => deleteCell(e, i)}>
+                  x
+                </button>
+              </li>
+            ))}
+          </ul>
+          <TagAdder
+            handleTags={handleChange}
+            boardInfo={boardInfo}
+            setBoardInfo={setBoardInfo}
+          />
+          <ul className="tags-list">
+            {boardInfo.tags.map((tag, i) => (
+              <li key={i} className="tag">
+                {tag}
+                <button className="close" onClick={(e) => deleteTag(e, i)}>
                   x
                 </button>
               </li>
