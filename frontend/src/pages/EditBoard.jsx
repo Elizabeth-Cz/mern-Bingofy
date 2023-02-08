@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import GameBoard from '../components/GameBoard';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBoards, reset } from '../features/boards/boardSlice';
 import Spinner from '../components/Spinner';
+import BoardForm from '../components/BoardForm';
 
-const Game = () => {
+const EditBoard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -15,7 +15,6 @@ const Game = () => {
   const { boards, isLoading, isError, message } = useSelector(
     (state) => state.boards
   );
-
   const [board, setBoard] = useState(null);
 
   useEffect(() => {
@@ -31,24 +30,15 @@ const Game = () => {
   }, [dispatch, navigate, user]);
 
   useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
     setBoard(boards.find((b) => b._id === id) || {});
-  }, [boards, id, isError, message]);
+  }, [boards, id, setBoard]);
 
   if (isLoading) {
     return <Spinner />;
   }
   return (
-    <div>
-      {board && Object.keys(board).length > 0 && (
-        <>
-          <GameBoard board={board} />
-        </>
-      )}
-    </div>
+    <div>{board && <BoardForm board={board.boardInfo} id={board._id} />}</div>
   );
 };
 
-export default Game;
+export default EditBoard;

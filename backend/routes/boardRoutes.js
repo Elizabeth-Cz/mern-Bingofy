@@ -15,6 +15,6 @@ router
   .route('/:id')
   .delete(protect, deleteBoard)
   .put(protect, updateBoard)
-  .get(protect, getBoard);
+  .get(getBoard);
 
 module.exports = router;

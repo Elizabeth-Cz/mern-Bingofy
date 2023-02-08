@@ -22,7 +22,7 @@ const boardSchema = mongoose.Schema(
         required: [true, 'Please add a category'],
       },
       activeCells: [],
-      // Active cells array?
+      // private/public boolean
     },
   },
   {

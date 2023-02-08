@@ -50,13 +50,31 @@ export const getBoards = createAsyncThunk(
   }
 );
 
+// Get board
+export const getBoard = createAsyncThunk(
+  'boards/getBoard',
+  async (id, thunkAPI) => {
+    try {
+      return await boardService.getBoard(id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // Delete board
 export const deleteBoard = createAsyncThunk(
   'boards/delete',
-  async (id, boardData, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await boardService.deleteBoard(id, boardData, token);
+      return await boardService.deleteBoard(id, token);
     } catch (error) {
       const message =
         (error.response &&

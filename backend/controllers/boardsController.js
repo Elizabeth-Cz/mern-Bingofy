@@ -90,7 +90,7 @@ const updateBoard = asyncHandler(async (req, res) => {
   }
 
   const updatedBoard = await Board.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
+    new: false,
   });
 
   res.status(200).json(updatedBoard);
