@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import Spinner from '../components/Spinner';
 import { useParams } from 'react-router-dom';
 
 const GameBoard = ({ board }) => {
   const { id } = useParams();
+  // localStorage.removeItem(`board ${id}`);
   const LS = JSON.parse(localStorage.getItem('board ' + id));
 
   const [boardInfo, setboardInfo] = useState(
@@ -41,8 +41,6 @@ const GameBoard = ({ board }) => {
       }
     });
     setIsBingo(bingo);
-    // Doesn't save last cellClick
-    // saveBoard();
     return bingo;
   }, []);
 
@@ -58,8 +56,6 @@ const GameBoard = ({ board }) => {
         activeCells: [...boardInfo.activeCells, index],
       });
     }
-    // Doesn't save last cellClick
-    // saveBoard();
   };
 
   const shuffleCells = () => {
@@ -70,23 +66,20 @@ const GameBoard = ({ board }) => {
     setboardInfo({ ...boardInfo, activeCells: [] });
   };
 
-  //use callback
-
-  function saveBoard() {
+  const saveBoard = useCallback(() => {
     const LS = { boardInfo, boardId: id };
     localStorage.setItem('board ' + id, JSON.stringify(LS));
-  }
+  }, [boardInfo, id]);
 
   const { cells, title, activeCells } = boardInfo;
 
   useEffect(() => {
     checkBingo(activeCells);
-    // console.log(isBingo);
     saveBoard();
   }, [activeCells, checkBingo, isBingo, saveBoard]);
 
   if (!board) {
-    return <Spinner />;
+    return <h1>No such board</h1>;
   }
 
   return (
@@ -103,8 +96,6 @@ const GameBoard = ({ board }) => {
               onClick={() => {
                 handleCellClick(index);
                 checkBingo(activeCells);
-                // Doesn't save last cellClick
-                // saveBoard();
               }}
             >
               <p>{cell}</p>
@@ -121,12 +112,12 @@ const GameBoard = ({ board }) => {
             </button>
           )}
           <h1 className={isBingo ? 'scale-up-center' : 'no-bingo'}>BINGO</h1>{' '}
-          <button
+          {/* <button
             className="btn btn-save btn-reverse"
             onClick={() => saveBoard()}
           >
             Save
-          </button>
+          </button> */}
         </div>
       </div>
     </>

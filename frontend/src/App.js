@@ -21,11 +21,11 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/create" element={<CreateBoard />} />
             <Route path="/play" element={<Play />} />
-            <Route path="/play/:id" element={<Game />} />
-            <Route path="/edit/:id" element={<EditBoard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/myaccount" element={<MyAccount />} />
+            <Route path="/play/:id" element={<Game />} />
+            <Route path="/edit/:id" element={<EditBoard />} />
           </Routes>
         </div>
       </Router>

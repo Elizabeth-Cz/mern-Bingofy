@@ -19,6 +19,9 @@ const Game = () => {
   const [board, setBoard] = useState(null);
 
   useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
     if (!user) {
       navigate('/login');
       return;

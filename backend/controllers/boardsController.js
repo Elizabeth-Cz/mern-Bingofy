@@ -71,7 +71,6 @@ const setBoard = asyncHandler(async (req, res) => {
 // @access  Private
 const updateBoard = asyncHandler(async (req, res) => {
   const board = await Board.findById(req.params.id);
-
   if (!board) {
     res.status(400);
     throw new Error('Board not found');
@@ -89,9 +88,13 @@ const updateBoard = asyncHandler(async (req, res) => {
     throw new Error('User not authorized');
   }
 
-  const updatedBoard = await Board.findByIdAndUpdate(req.params.id, req.body, {
-    new: false,
-  });
+  const updatedBoard = await Board.findByIdAndUpdate(
+    req.params.id,
+    req.body.boardInfo,
+    {
+      new: false,
+    }
+  );
 
   res.status(200).json(updatedBoard);
 });
@@ -101,6 +104,7 @@ const updateBoard = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteBoard = asyncHandler(async (req, res) => {
   const board = await Board.findById(req.params.id);
+  // console.log('board: ', board);
 
   if (!board) {
     res.status(400);

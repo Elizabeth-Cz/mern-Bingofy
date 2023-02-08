@@ -28,6 +28,25 @@ export const createBoard = createAsyncThunk(
   }
 );
 
+// Update board
+export const updateBoard = createAsyncThunk(
+  'boards/update',
+  async ({ boardId, boardData }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await boardService.updateBoard(boardId, boardData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // Get user boards
 export const getBoards = createAsyncThunk(
   'boards/getAll',
@@ -87,25 +106,6 @@ export const deleteBoard = createAsyncThunk(
   }
 );
 
-// Update board
-export const updateBoard = createAsyncThunk(
-  'boards/update',
-  async (id, boardData, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await boardService.updateBoard(id, boardData, token);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -123,6 +123,26 @@ export const boardSlice = createSlice({
         state.boards.push(action.payload);
       })
       .addCase(createBoard.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(updateBoard.pending, (state) => {
+        state.isLoading = true;
+      })
+      //payload not updating state!!!
+      .addCase(updateBoard.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        const boardIndex = state.boards.findIndex(
+          (b) => b._id === action.payload._id
+        );
+        state.boards[boardIndex] = {
+          ...state.boards[boardIndex],
+          ...action.payload,
+        };
+      })
+      .addCase(updateBoard.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -154,14 +174,6 @@ export const boardSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      })
-      .addCase(updateBoard.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        const updatedBoardIndex = state.boards.findIndex(
-          (board) => board._id === action.payload._id
-        );
-        state.boards[updatedBoardIndex] = action.payload;
       });
   },
 });

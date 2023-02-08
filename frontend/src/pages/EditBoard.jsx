@@ -22,12 +22,13 @@ const EditBoard = () => {
       navigate('/login');
       return;
     }
+
     dispatch(getBoards());
 
     return () => {
       dispatch(reset());
     };
-  }, [dispatch, navigate, user]);
+  }, [dispatch, navigate, user, isError, message]);
 
   useEffect(() => {
     setBoard(boards.find((b) => b._id === id) || {});
@@ -37,7 +38,15 @@ const EditBoard = () => {
     return <Spinner />;
   }
   return (
-    <div>{board && <BoardForm board={board.boardInfo} id={board._id} />}</div>
+    <div>
+      {board && (
+        <BoardForm
+          completeBoard={board}
+          board={board.boardInfo}
+          id={board._id}
+        />
+      )}
+    </div>
   );
 };
 
